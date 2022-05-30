@@ -1,0 +1,60 @@
+<header>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">{{user}}'s Todo List</span>
+            <button class="btn btn-primary ms-auto" (click)=handleLogout()>Logout</button>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div class="text-center">
+        <form name="loginForm" class="loginForm" [formGroup]="todoForm" (ngSubmit)="addNewTask()">
+        <div class="row mt-5">
+                <div class="col-md-5"><input [(ngModel)]="newTask.title" type="text" formControlName="title" placeholder="Title"
+                        class="form-control"></div>
+                <div class="col-md-5"><input [(ngModel)]="newTask.description" type="text" formControlName="description"
+                        placeholder="Description" class="form-control"></div>
+                <div class="col-md-2"><button class="btn btn-dark" [disabled]="todoForm.invalid" >ADD TASK</button></div>
+            </div>
+        </form>
+
+        <div class="task-table" *ngIf="tasks && tasks.length">
+
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Last Modified</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of tasks | slice: (page-1) * pageSize : page * pageSize">
+                        <td class="align-middle"><input type="checkbox" class="form-check-input"
+                                (change)="changeStatusTask(task.todoId)" [(ngModel)]="task.todoStatus"></td>
+                        <td class="align-middle">{{task.title}}</td>
+                        <td class="align-middle">{{task.description}}</td>
+                        <td class="align-middle">{{task.lastModified | date:'medium' }} </td>
+                        <td class="align-middle">
+                            <button class="btn btn-danger" (click)="removeTask(task.todoId)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination class="d-flex justify-content-center" [pageSize]="pageSize" [collectionSize]="tasks.length"
+                [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </div>
+
+</div>
