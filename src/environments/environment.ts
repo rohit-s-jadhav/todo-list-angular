@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // appURL: 'http://localhost:8080' // apache tomcat
-  appURL: 'http://localhost:9090' // embedded tomcat
+  appURL: 'http://localhost:8080/todo-list' // apache tomcat
+  // appURL: 'http://localhost:9090' // embedded tomcat
 };
 
 /*
